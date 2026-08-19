@@ -29,7 +29,6 @@
 | 寫測試、需要 mock 東西 | [testing.md](.claude/rules/testing.md)（只測業務行為；只用 mocking 套件 mock 介面，禁手寫 Fake） |
 | 寫排程 / 背景工作 | [background-jobs.md](.claude/rules/background-jobs.md) |
 | 選型別、宣告變數、處理金額、包錯誤 | [code-style.md](.claude/rules/code-style.md) |
-| 準備 commit、開新功能 | [workflow.md](.claude/rules/workflow.md)（build/lint/test 三綠、SDD + TDD 節奏） |
 
 完整索引見 [.claude/rules/README.md](.claude/rules/README.md)。
 

@@ -13,4 +13,3 @@
 | [persistence.md](persistence.md) | **一律 Code First**、schema sync 交給 ORM、禁手寫 SQL/DDL、一 entity 一 repository |
 | [testing.md](testing.md) | **只測業務行為**、**只用 mocking 套件 mock 介面（禁手寫 Fake）**、測試力度放大 |
 | [background-jobs.md](background-jobs.md) | 背景 job 配置、`IBackgroundJob`、管線輪次記錄機制 |
-| [workflow.md](workflow.md) | commit 前 build/lint/test、SDD + TDD 節奏 |
