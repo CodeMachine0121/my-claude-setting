@@ -37,13 +37,26 @@
 | 類別 | 規則 | 位置 |
 | :--- | :--- | :--- |
 | **Entity**（乾淨 Data Model，只有欄位） | 以領域語彙命名，**不加任何後綴** | `domain/models/entities/` |
-| **Domain Model**（行為所在地） | 以領域語彙命名，可加 `Model` 或直接用領域名 | `domain/models/domains/` |
+| **Domain Model**（行為所在地） | **`Domain` 後綴** | `domain/models/domains/` |
 | **DTO**（service 回傳給 application 的純資料） | `Dto` 後綴 | `domain/models/dto/` |
-| **VO**（不可變、無行為的值物件） | 以值本身命名，不加後綴 | `domain/models/vo/` |
+| **VO**（不可變、無行為的值物件） | **`Vo` 後綴** | `domain/models/vo/` |
 | **Request**（endpoint 接收的 body） | `Request` 後綴 | controller 同層 |
 
 - querystring / route 參數**不立 struct/class**，直接在 handler 內逐一解析。
 - 回應**直接回傳 DTO**，不另立 `Response` 型別。
+
+### 四種 model 的後綴一眼可辨
+
+同一個領域概念會同時存在四種形狀，後綴就是它們的身分證——看到名字就知道它屬於哪一層、能不能帶行為、能不能離開 domain：
+
+```
+Order           entity      只有欄位與持久化標註
+OrderDomain     行為         由 entity 轉換而來，業務規則住在這裡
+OrderDto        對外形狀      domain 交給 application 的唯一形狀
+MoneyVo         值           不可變、無行為
+```
+
+**Entity 是唯一不帶後綴的**，因為它是那個領域概念的本體；其餘三種都是它的某種投影，各自加上後綴表明自己是什麼。
 
 ## 介面：以「能力」抽象命名，不以「供應商」命名
 
@@ -51,6 +64,21 @@
 - **集中放在 `domain/interface/`，一個介面一個檔案。**
 - **實作檔內不得宣告任何 `interface`。**
 - 不使用「port」一詞或資料夾。
+
+### 介面只抽象「行為」，絕不抽象「資料」
+
+**`interface` 的唯一用途是抽象業務層的 method——repository、proxy 這類「做什麼事」的契約。**
+**資料一律用 `class` 定義，不論它是 entity、domain model、DTO、VO 還是 service 的參數。**
+
+```
+✅ interface IPaymentProxy { createCheckout(...) }   ← 行為契約，有多個實作要替換
+❌ interface OrderSummary { orderId, amount }        ← 這是資料，該用 class
+✅ class OrderSummaryDto { 建構子可驗證、可帶 toXxx() 轉換 }
+```
+
+判準很簡單：**它有沒有「多個實作要替換」？** 沒有就不該是 interface。一份資料形狀永遠只有一種樣子，抽成 interface 只是把 class 少寫了一個字，換來的是它從此無法帶建構子驗證、無法帶 `toXxx()` 轉換、也無法在執行期辨認型別。
+
+**Service 接收的物件一律用 DTO。** 需要一組參數時，把它們封裝成 `XxxDto`，不要抽 interface，也不要直接用行內的匿名物件 / 字典型別當參數。DTO 因此是雙向的——它既是 domain 交給 application 的回傳形狀，也是 application 交給 domain 的輸入形狀。
 
 ### 核心原則
 

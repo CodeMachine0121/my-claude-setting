@@ -26,6 +26,7 @@ total = calculate()
 ## 行為掛在物件上
 
 - 業務計算一律是 **Domain Model 的 method**，不是散落的靜態工具函式。
+- **model 內禁止任何 `static` method**（entity / domain model / DTO / VO 皆然），含看似無害的工廠與轉換。建構用建構子，轉換用來源身上的 `toXxx()`——詳見 [architecture.md](architecture.md)。
 - **禁止 `private static` method**：它的參數屬於誰，就把 method 搬進誰裡面，改用自身 property 運算。
 - **`private` method 只有被 2 個以上 public method 共用時才留**，否則直接 inline。
 - 詳細做法與範例見 [architecture.md](architecture.md) 的「禁止 private / private static method」。

@@ -46,6 +46,8 @@ CLAUDE.md              情境 → 該讀哪份規則（Claude Code 的入口）
 | 依賴方向永遠指向 Domain | Domain 不認識 HTTP / ORM / 任何 SDK |
 | Entity 乾淨，行為放 Domain Model | Entity 只有欄位；業務邏輯另外拉一個物件裝 |
 | 行為住在它操作的資料旁邊 | 沒有 `private static`、沒有 `XxxHelper` 雜物櫃 |
+| model 內沒有 `static` | 轉換寫在來源身上：`a.toB()` ✅　`B.fromA(a)` ❌ |
+| 介面只抽象行為，不抽象資料 | `IPaymentProxy` ✅　`interface OrderSummary { ... }` ❌，資料一律 class |
 | 介面綁「能力」，不綁「供應商」 | `IMapProxy` ✅　`IGoogleProxy` ❌ |
 | 外部服務一律 `Proxy` 結尾 | 不用 Client / Gateway / Adapter |
 | 一律 Code First | schema 由 code 定義，sync 交給 ORM |

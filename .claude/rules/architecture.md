@@ -42,6 +42,12 @@ domain/
 | **Entity**（`models/entities/`） | 乾淨的 **Data Model** | 只有欄位、持久化對應（ORM 標註）。**不放任何業務邏輯、不放計算 method** |
 | **Domain Model**（`models/domains/`） | 業務行為的所在地 | 針對某個 entity（或一組 entity）拉出的領域物件，**所有計算、驗證、狀態轉換的 function 都放這裡** |
 
+**Domain Model 是一個由 entity 轉換而來的普通 class，不是介面抽象。**
+
+- **不為 Domain Model 定義介面，也不用介面做繼承。** 它沒有多個實作要替換——它就是那個領域概念本身。需要不同行為時，那是不同的 Domain Model，不是同一個介面的兩種實作。
+- **Domain Model 檔內不得宣告任何 `interface`**（這條本來就適用於所有實例檔，見 [naming.md](naming.md)）。參數過多時，把參數群組抽成 **VO**（domain 內部）或 **DTO**（跨 service 邊界），不是抽成 interface。
+- 由 entity 進來的路徑一律是 `entity.toDomain()`；要產生 entity 時一律是 `domainModel.toEntity()`。
+
 - 需要對 entity 做任何領域操作時，**另外替它拉一個 Domain Model**，由 Domain Model 持有 entity 資料並提供行為。
 - Domain Model 以建構子建立，**建構子內做正規化 / clamp**（非法 enum → 安全預設值、數值 → 合理範圍）。
 - **禁止散落的 package-level / static 計算函式當「工具類」（壞味道）**——行為要掛在 Domain Model 上。
@@ -50,6 +56,23 @@ domain/
 ## 禁止 private / private static method——把行為搬回它該待的地方
 
 充血模型的重點不是「把 method 塞進某個類別」，而是**讓行為住在它操作的資料旁邊**。類別裡出現 `private static`（或只被自己用的 `private`）method，幾乎都是行為放錯家的訊號。
+
+### model 內一律不得有 `static` method
+
+**entity、domain model、DTO、VO 一律不得有任何 `static` method**，不論公開或私有。model 是資料，不是工具箱。
+
+最常見的違規是**用 static 做 model 之間的轉換**：
+
+```
+❌ OrderDomain.fromEntity(order)      ← 轉換掛在目標身上，還是個 static
+❌ MoneyVo.fromString("299", "TWD")   ← 名為工廠，實為 static 工具
+✅ order.toDomain()                   ← 轉換掛在來源身上，是 instance method
+✅ new MoneyVo("299", "TWD")          ← 建構就用建構子，正規化寫在建構子內
+```
+
+**轉換的方向決定它住在哪裡：要從 A 變成 B，method 就寫在 A 身上，叫 `toB()`。** 因為轉換讀的是 A 的 property——寫在 B 上就得把 A 整個傳進去，那正是 Feature Envy。
+
+需要在建立時做驗證或正規化（非法 enum → 安全預設值、數值 clamp、格式檢查），**一律寫在建構子裡**，不要為此開一個 static 工廠。
 
 ### `private static` 一律不留
 
