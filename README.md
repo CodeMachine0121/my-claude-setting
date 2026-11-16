@@ -31,11 +31,17 @@ cp -r /tmp/claude-rules/CLAUDE.md /tmp/claude-rules/.claude /path/to/your-projec
 CLAUDE.md              情境 → 該讀哪份規則（Claude Code 的入口）
 .claude/rules/
 ├── README.md          規則索引
-├── architecture.md    Clean/Onion 分層、domain/models/ 結構、充血模型
+├── architecture.md    架構入口：選哪份架構檔 + 共用原則（依賴方向、禁 static）
+├── architecture/
+│   ├── layered.md                Clean/Onion 分層、domain/models/、充血模型
+│   └── go-package-by-feature.md  Go 依業務領域切資料夾
 ├── naming.md          角色後綴、介面抽象命名、Proxy、檔名
 ├── code-style.md      型別、變數宣告、static helper、金額、錯誤處理
 ├── persistence.md     Code First、ORM schema sync、禁手寫 SQL
-├── testing.md         只測業務行為、mocking 策略
+├── testing.md         測試入口：選哪份測試檔 + 共用原則（只測業務行為、mock 策略）
+├── testing/
+│   ├── layered.md                各層測試策略、黑箱 tests/
+│   └── go-package-by-feature.md  UseCase 為主、testify、同 package
 └── background-jobs.md 背景 job 配置、管線輪次記錄
 ```
 
@@ -43,8 +49,8 @@ CLAUDE.md              情境 → 該讀哪份規則（Claude Code 的入口）
 
 | 主張 | 白話 |
 | :--- | :--- |
-| 依賴方向永遠指向 Domain | Domain 不認識 HTTP / ORM / 任何 SDK |
-| Entity 乾淨，行為放 Domain Model | Entity 只有欄位；業務邏輯另外拉一個物件裝 |
+| 架構不寫死 | 入口檔指路，依專案選 `architecture/` 與 `testing/` 底下對應那份 |
+| 依賴方向永遠指向核心 | 核心不認識 HTTP / ORM / 任何 SDK |
 | 行為住在它操作的資料旁邊 | 沒有 `private static`、沒有 `XxxHelper` 雜物櫃 |
 | model 內沒有 `static` | 轉換寫在來源身上：`a.toB()` ✅　`B.fromA(a)` ❌ |
 | 介面只抽象行為，不抽象資料 | `IPaymentProxy` ✅　`interface OrderSummary { ... }` ❌，資料一律 class |

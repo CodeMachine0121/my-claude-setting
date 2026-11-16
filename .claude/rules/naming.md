@@ -2,6 +2,8 @@
 
 與語言無關的命名規範。**大小寫、檔名格式一律 follow 該語言自身的慣例**，本檔只規定「名字怎麼取」。
 
+> 本檔的資料夾路徑（`domain/models/...`、`domain/interface/`）與層後綴以 [architecture/layered.md](architecture/layered.md) 為準。其他架構若有覆寫，見該架構檔的「與共用規則的差異」表。
+
 ## 通則
 
 - **命名一律全名，避免縮寫**（`InstitutionalScore` 不寫 `InstScore`、`ConfidenceLevel` 不寫 `ConfLvl`）。
