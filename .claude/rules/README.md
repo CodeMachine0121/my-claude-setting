@@ -22,5 +22,6 @@
 | :--- | :--- | :--- |
 | Clean / Onion 分層 | [architecture/layered.md](architecture/layered.md) | [testing/layered.md](testing/layered.md) |
 | Go Package-by-Feature | [architecture/go-package-by-feature.md](architecture/go-package-by-feature.md) | [testing/go-package-by-feature.md](testing/go-package-by-feature.md) |
+| 前端 Feature-based（TS + Vite + Bun） | [architecture/frontend-feature-based.md](architecture/frontend-feature-based.md) | [testing/frontend-feature-based.md](testing/frontend-feature-based.md) |
 
 架構檔與共用規則衝突時，**以架構檔的「與共用規則的差異」表為準**。

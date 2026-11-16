@@ -13,6 +13,7 @@
 | :--- | :--- |
 | Clean / Onion 分層 | [testing/layered.md](testing/layered.md) |
 | Go Package-by-Feature | [testing/go-package-by-feature.md](testing/go-package-by-feature.md) |
+| 前端 Feature-based | [testing/frontend-feature-based.md](testing/frontend-feature-based.md) |
 
 ## 共用原則（所有架構都成立）
 

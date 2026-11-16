@@ -34,14 +34,16 @@ CLAUDE.md              情境 → 該讀哪份規則（Claude Code 的入口）
 ├── architecture.md    架構入口：選哪份架構檔 + 共用原則（依賴方向、禁 static）
 ├── architecture/
 │   ├── layered.md                Clean/Onion 分層、domain/models/、充血模型
-│   └── go-package-by-feature.md  Go 依業務領域切資料夾
+│   ├── go-package-by-feature.md  Go 依業務領域切資料夾
+│   └── frontend-feature-based.md 前端 TS + Vite + Bun，依業務領域切資料夾
 ├── naming.md          角色後綴、介面抽象命名、Proxy、檔名
 ├── code-style.md      型別、變數宣告、static helper、金額、錯誤處理
 ├── persistence.md     Code First、ORM schema sync、禁手寫 SQL
 ├── testing.md         測試入口：選哪份測試檔 + 共用原則（只測業務行為、mock 策略）
 ├── testing/
 │   ├── layered.md                各層測試策略、黑箱 tests/
-│   └── go-package-by-feature.md  UseCase 為主、testify、同 package
+│   ├── go-package-by-feature.md  UseCase 為主、testify、同 package
+│   └── frontend-feature-based.md Vitest、UseCase Test + Component Test
 └── background-jobs.md 背景 job 配置、管線輪次記錄
 ```
 

@@ -13,6 +13,7 @@
 | :--- | :--- |
 | Clean / Onion 分層（`domain/` `application/` `controller/` `infrastructure/`） | [architecture/layered.md](architecture/layered.md) |
 | Go API，依業務領域切資料夾（`internal/<feature>/`） | [architecture/go-package-by-feature.md](architecture/go-package-by-feature.md) |
+| 前端（TypeScript + Vite + Bun），依業務領域切資料夾（`modules/<feature>/`） | [architecture/frontend-feature-based.md](architecture/frontend-feature-based.md) |
 
 怎麼判斷專案用哪一種：
 
